@@ -8,6 +8,7 @@ import { selectTreeData } from '../../redux/forest/selectors';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { setTreeData } from '../../redux/forest/slice';
 import RNFS from 'react-native-fs';
+import { colors } from '../../constants/colors';
 
 interface IInitialScreenProps {
   setIsDisabled: (disabled: boolean) => void;
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   title: {
-    color: '#FFFFFF',
+    color: colors.white,
   },
   photoContainer: {
     gap: 16,

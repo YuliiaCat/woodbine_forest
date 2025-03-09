@@ -1,6 +1,5 @@
 import { FlatList, StyleSheet, Text } from 'react-native';
 import { fonts } from '../constants/fonts';
-import SharedLayout from '../components/SharedLayout';
 import treeData from '../data/treeData';
 import { useEffect, useRef, useState } from 'react';
 import TreeCard from '../components/TreeCard';
@@ -8,6 +7,7 @@ import { useAppDispatch } from '../redux/hooks';
 import { fetchFavoritesOperation } from '../redux/favorites/operations';
 import FilterDropdown from '../components/FilterDropdown';
 import { TTreeCategory } from '../types/treeCategory';
+import SharedLayout from '../components/SharedLayout/SharedLayout';
 
 const InfoTreesScreen = () => {
   const flatListRef = useRef<FlatList>(null);

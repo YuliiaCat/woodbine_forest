@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import BackButton from '../components/BackButton';
 import Title from '../components/Title';
+import { colors } from '../constants/colors';
 
 const PrivacyPolicyScreen = () => {
   return (
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderTopRightRadius: 6,
     borderTopLeftRadius: 16,
     marginTop: 8,

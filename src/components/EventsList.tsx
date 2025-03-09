@@ -9,6 +9,7 @@ import { RootStackNavigation } from '../navigation/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { selectTreeData } from '../redux/forest/selectors';
 import { deleteEventOperation } from '../redux/forest/operations';
+import { colors } from '../constants/colors';
 
 const EventsList = () => {
   const treeData = useAppSelector(selectTreeData);
@@ -66,11 +67,11 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 9,
     paddingHorizontal: 10,
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     borderRadius: 12,
   },
   title: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 13,
     lineHeight: 18,
@@ -85,13 +86,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: '50%',
-    backgroundColor: '#C80D0D',
+    backgroundColor: colors.red,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
   },
   noEvents: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,

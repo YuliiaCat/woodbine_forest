@@ -11,6 +11,7 @@ import { useState } from 'react';
 import DatePickerComponent from '../components/DatePickerComponent';
 import { addEventOperation, setTreeDataOperation } from '../redux/forest/operations';
 import ITree from '../types/tree';
+import { colors } from '../constants/colors';
 
 const AddEventScreen = () => {
   const navigation = useNavigation<NavigationProps>();
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   title: {
-    color: '#ffffff',
+    color: colors.white,
     fontFamily: fonts.DMSansRegular,
     fontSize: 16,
     lineHeight: 41,
@@ -125,20 +126,20 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   inputContainer: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     paddingVertical: 9,
     paddingHorizontal: 10,
     borderRadius: 12,
   },
   text: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 13,
     lineHeight: 18,
     letterSpacing: -0.08,
   },
   input: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,

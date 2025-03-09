@@ -14,6 +14,7 @@ import { RootStackNavigation } from '../navigation/types';
 import { TDuration } from '../types/duration';
 import uuid from 'react-native-uuid';
 import SharedButtonBlock from '../components/SharedButtonBlock';
+import { colors } from '../constants/colors';
 
 const AddGoalScreen = () => {
   const [goalName, setGoalName] = useState('');
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   btnText: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,
@@ -110,20 +111,20 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   text: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
   },
   textBox: {
     gap: 10,
   },
   durationsContainer: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     borderRadius: 12,
     paddingVertical: 9,
     paddingHorizontal: 10,
     gap: 5,
   },
   goalTermText: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 13,
     lineHeight: 18,
@@ -137,16 +138,16 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 16,
-    backgroundColor: '#101010',
+    backgroundColor: colors.treeCardColor,
   },
   durationText: {
-    color: '#fdf9f9',
+    color: colors.inputColor,
     fontFamily: fonts.DMSansBold,
     fontSize: 12,
     lineHeight: 24,
   },
   selectedButton: {
-    backgroundColor: '#C80D0D',
+    backgroundColor: colors.red,
   },
 });
 

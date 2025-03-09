@@ -1,5 +1,5 @@
 import 'react-native-reanimated';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AppRegistry, SafeAreaView, StyleSheet } from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator';
 import LinearGradientComponent from './src/components/LinearGradientComponent';
@@ -10,15 +10,10 @@ import Geocoder from 'react-native-geocoding';
 import { GOOGLE_MAPS_API_KEY } from '@env';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { name as appName } from './app.json';
-import SplashScreen from 'react-native-splash-screen';
 
 Geocoder.init(GOOGLE_MAPS_API_KEY, { language: 'en' });
 
 function App (): React.JSX.Element {
-
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
 
   return (
     <GestureHandlerRootView>

@@ -1,14 +1,15 @@
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import NavBar from './NavBar/NavBar';
 import React, { ReactNode  } from 'react';
-import Title from './Title';
-import FilterIcon from '../assets/icons/FilterIcon';
-import IconPlus from '../assets/icons/IconPlus';
-import SharedButton from './SharedButton';
+
 import { useNavigation } from '@react-navigation/native';
-import { RootStackNavigation } from '../navigation/types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackNavigation } from '../../navigation/types';
+import Title from '../Title';
+import SharedButton from '../SharedButton';
+import IconPlus from '../../assets/icons/IconPlus';
+import FilterIcon from '../../assets/icons/FilterIcon';
+import NavBar from '../NavBar/NavBar';
 
 interface ISharedLayout {
   children: ReactNode;

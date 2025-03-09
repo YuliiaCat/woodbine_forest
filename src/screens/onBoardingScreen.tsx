@@ -9,6 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackNavigation } from '../navigation/types';
 import SharedButton from '../components/SharedButton';
 import { fonts } from '../constants/fonts';
+import { colors } from '../constants/colors';
 
 const OnBoardingScreen = () => {
   const [currentItem, setCurrentItem] = useState(0);
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.DMSansRegular,
     width: 51,
     height: 51,
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',

@@ -45,24 +45,6 @@ const AddTreeScreen = () => {
     }
   }, [step, treeData]);
 
-  // const handleNext = () => {
-  //   if (step < 3) {
-  //     setStep(step + 1);
-  //   } else {
-  //     const treeToSave: ITree = {
-  //       ...treeData,
-  //       id: treeData.id ?? Date.now(),
-  //     };
-
-  //     if (!trees.some(t => t.id === treeToSave.id)) {
-  //       dispatch(addNewTree(treeToSave));
-  //       navigation.navigate('MAIN_SCREEN');
-  //     } else {
-  //       console.warn('Tree already exists, skipping duplicate addition');
-  //     }
-  //   }
-  // };
-
   const handleNext = () => {
     if (step < 3) {
       setStep(step + 1);

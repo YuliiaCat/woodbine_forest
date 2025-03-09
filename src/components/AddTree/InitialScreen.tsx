@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { fonts } from '../../constants/fonts';
-import DatePickerComponent from '../DatePickerComponent';
-import SharedText from '../SharedText';
+import { useEffect } from 'react';
+// import { StyleSheet, TouchableOpacity, View } from 'react-native';
+// import DatePickerComponent from '../DatePickerComponent';
+// import SharedText from '../SharedText';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectTreeData } from '../../redux/forest/selectors';
 import { setTreeData } from '../../redux/forest/slice';
 import ITree from '../../types/tree';
+// import { colors } from '../../constants/colors';
+// import SharedInput from '../SharedInput';
+import SharedAddForm from '../SharedComponents/SharedAddForm';
 
 interface IInitialScreenProps {
   setIsDisabled: (disabled: boolean) => void;
@@ -15,96 +17,91 @@ interface IInitialScreenProps {
 const InitialScreen: React.FC<IInitialScreenProps> = ({ setIsDisabled }) => {
   const dispatch = useAppDispatch();
   const treeData = useAppSelector(selectTreeData);
-  const [showCalendar, setShowCalendar] = useState(false);
+  // const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     setIsDisabled(!(treeData.title && treeData.date));
   }, [treeData, setIsDisabled]);
 
   const handleInputChange = (key: keyof ITree, value: string | Date | null) => {
+    if (!treeData.id && key !== 'date') {
+      return;
+    }
+
     const formattedValue = key === 'date' && value instanceof Date ? value.toISOString() : value;
     dispatch(setTreeData({
       ...treeData,
-      id: treeData.id ?? Date.now(),
       [key]: formattedValue,
     }));
   };
 
-  return (
-    <View style={styles.container}>
-      <SharedText
-        text={'Tree info'}
-        style={styles.title}
-       />
-      <View style={styles.inputContainer}>
-        <Text style={styles.text}>Name of tree</Text>
-        <TextInput
-          placeholder={'Enter name of tree'}
-          placeholderTextColor={'#FDF9F980'}
-          value={treeData?.title ?? ''}
-          onChangeText={text => handleInputChange('title', text)}
-          style={styles.input}
-        />
-      </View>
+  console.log('treedata', treeData);
 
-      {!showCalendar ? (
-        <View style={styles.inputContainer}>
-          <Text style={styles.text}>Select date for planting tree</Text>
-          <TouchableOpacity onPress={() => setShowCalendar(true)}>
-          <Text style={treeData?.date ? styles.input : styles.placeholder}>
-              {treeData?.date
-                ? new Date(treeData.date).toLocaleDateString('en-US', { day: 'numeric', month: 'numeric',  year: 'numeric' }).replaceAll('/', '-')
-                : '-'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        ) : (
-          <DatePickerComponent
-            selectedDate={treeData?.date ? new Date(treeData.date) : new Date()}
-            onSelectDate={(date) => {
-              handleInputChange('date', date);
-              setShowCalendar(false);
-            }}
-          />
-        )}
-    </View>
+  return (
+    <SharedAddForm
+      title={'Tree info'}
+      nameSubtitle={'Name of tree'}
+      dateSubtitle={'Select date for planting tree'}
+      namePlaceholder={'Enter name of tree'}
+      datePlaceholder={'-'}
+      handleInputChange={text => handleInputChange('title', text)}
+      nameValue={treeData?.title ?? ''}
+      dateValue={treeData?.date
+        ? new Date(treeData.date).toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric',
+          }).replaceAll('/', '-')
+        : ''}
+      selectedDate={treeData?.date ? new Date(treeData.date) : null}
+    />
+    // <View style={styles.container}>
+    //   <SharedText
+    //     text={'Tree info'}
+    //     style={styles.title}
+    //    />
+    //    <SharedInput
+    //       text={'Name of tree'}
+    //       placeholder={'Enter name of tree'}
+    //       value={treeData?.title ?? ''}
+    //       onChange={text => handleInputChange('title', text)}
+    //    />
+
+    //   {!showCalendar ? (
+    //     <TouchableOpacity onPress={() => setShowCalendar(true)}>
+    //       <SharedInput
+    //         text={'Select date for planting tree'}
+    //         placeholder={'-'}
+    //         value={treeData?.date
+    //           ? new Date(treeData.date).toLocaleDateString('en-US', {
+    //               day: 'numeric',
+    //               month: 'numeric',
+    //               year: 'numeric',
+    //             }).replaceAll('/', '-')
+    //           : ''}
+    //         editable={false}
+    //       />
+    //     </TouchableOpacity>
+    //     ) : (
+    //       <DatePickerComponent
+    //         selectedDate={treeData?.date ? new Date(treeData.date) : null}
+    //         onSelectDate={(date) => {
+    //           handleInputChange('date', date);
+    //           setShowCalendar(false);
+    //         }}
+    //       />
+    //     )}
+    // </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    gap: 10,
-  },
-  title: {
-    color: '#FFFFFF',
-  },
-  inputContainer: {
-    backgroundColor: '#252525',
-    paddingVertical: 9,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-  },
-  text: {
-    color: '#fdf9f9',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 13,
-    lineHeight: 18,
-    letterSpacing: -0.08,
-  },
-  input: {
-    color: '#fdf9f9',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
-  },
-  placeholder: {
-    color: '#FDF9F980',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     gap: 10,
+//   },
+//   title: {
+//     color: colors.white,
+//   },
+// });
 
 export default InitialScreen;

@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import TreeImage from './TreeImage/TreeImage';
 import ITree from '../types/tree';
-import { fonts } from '../constants/fonts';
 import LocationIcon from '../assets/icons/LocationIcon';
 import ArrowIconRight from '../assets/icons/ArrowIconRight';
+import SharedTextFS from './SharedComponents/SharedTextFS';
 
 interface IUsersForestCard {
   item: ITree;
@@ -21,7 +21,9 @@ const UsersForestCard: React.FC<IUsersForestCard> = ({ item, onPress }) => {
         style={styles.image}
       />
       <View>
-        <Text style={styles.title}>{title}</Text>
+        <SharedTextFS
+          text={title}
+        />
         <View style={styles.locationContainer}>
           <View style={styles.locBox}>
             <LocationIcon fill={'#C80D0D'} />
@@ -46,13 +48,6 @@ const styles = StyleSheet.create({
     width: 310,
     height: 310,
     borderRadius: '50%',
-  },
-  title: {
-    color: '#FDF9F9',
-    fontFamily: fonts.DMSansSemiBold,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
   },
   locationContainer: {
     flexDirection: 'row',

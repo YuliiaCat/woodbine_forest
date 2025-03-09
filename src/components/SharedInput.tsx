@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native';
 import { fonts } from '../constants/fonts';
+import { colors } from '../constants/colors';
 
 interface ISharedInput {
   text: string;
@@ -31,20 +32,20 @@ const SharedInput: React.FC<ISharedInput> = ({ text, placeholder, value, style, 
 
 const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     paddingVertical: 9,
     paddingHorizontal: 10,
     borderRadius: 12,
   },
   text: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 14,
     lineHeight: 18,
     letterSpacing: -0.08,
   },
   input: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,

@@ -6,6 +6,7 @@ import { GOOGLE_MAPS_API_KEY } from '@env';
 import { setTreeData } from '../redux/forest/slice';
 import { fonts } from '../constants/fonts';
 import SearchIcon from '../assets/icons/SearchIcon';
+import { colors } from '../constants/colors';
 
 interface IMap {
   location?: {latitude: number | null; longitude: number | null; address?: string}
@@ -135,14 +136,14 @@ const MapComponent: React.FC<IMap> = ({ location, searchable = true, onLocationS
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 10,
     gap: 8,
   },
   mapText: {
-    color: '#FDF9F9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 13,
     lineHeight: 18,
@@ -160,21 +161,21 @@ const styles = StyleSheet.create({
     bottom: 8,
     left: 8,
     right: 8,
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     paddingVertical: 9,
     paddingHorizontal: 10,
     borderRadius: 12,
     width: '95%',
   },
   text: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 13,
     lineHeight: 18,
     letterSpacing: -0.08,
   },
   input: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,

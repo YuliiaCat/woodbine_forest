@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackNavigation } from '../navigation/types';
 import { ScreenNames } from '../constants/screenNames';
+import { colors } from '../constants/colors';
 
 const LoadingScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
   const [fadeAnim] = useState(new Animated.Value(0.5));
-  // const [showSecondLoader, setShowSecondLoader] = useState(false);
 
   useEffect(() => {
     const firstTimeout = setTimeout(() => {
@@ -18,7 +18,6 @@ const LoadingScreen = () => {
         duration: 1000,
         useNativeDriver: true,
       }).start(() => {
-        // setShowSecondLoader(true);
 
         Animated.timing(fadeAnim, {
           toValue: 1,
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.JomhuriaRegular,
-    color: '#ffffff',
+    color: colors.white,
     fontSize: 100,
     lineHeight: 100,
     textAlign: 'center',

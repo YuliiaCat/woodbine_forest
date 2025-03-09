@@ -8,6 +8,8 @@ import {
   Gesture,
 } from 'react-native-gesture-handler';
 import SharedButton from './SharedButton';
+import { colors } from '../constants/colors';
+import SharedTextFS from './SharedComponents/SharedTextFS';
 
 interface IEventCard {
   description: string;
@@ -50,7 +52,10 @@ const EventCard: React.FC<IEventCard> = ({ description, date, onDelete }) => {
             {description ?? 'Watered the tree with your friends'}
           </Text>
           <View style={styles.descrBox}>
-            <Text style={styles.title}>Date of Event</Text>
+            <SharedTextFS
+              text={'Date of Event'}
+              fontSize13={true}
+            />
             <Text style={styles.description}>{date.toLocaleDateString().replaceAll('/', '-')}</Text>
           </View>
         </Animated.View>
@@ -61,11 +66,6 @@ const EventCard: React.FC<IEventCard> = ({ description, date, onDelete }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // overflow: 'hidden',
-    // width: '100%',
-    // marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
     overflow: 'hidden',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#C80D0D',
+    backgroundColor: colors.red,
     borderTopRightRadius: 12,
     borderBottomRightRadius: 12,
   },
@@ -87,29 +87,21 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8,
     gap: 8,
-    backgroundColor: '#101010',
+    backgroundColor: colors.treeCardColor,
     borderRadius: 12,
   },
   description: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,
     letterSpacing: -0.41,
   },
   descrBox: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     borderRadius: 12,
     paddingVertical: 9,
     paddingHorizontal: 10,
-  },
-  title: {
-    color: '#fdf9f9',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 13,
-    lineHeight: 18,
-    letterSpacing: -0.08,
-    marginBottom: 2,
   },
 });
 

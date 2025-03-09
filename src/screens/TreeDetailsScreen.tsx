@@ -11,6 +11,8 @@ import TreeImage from '../components/TreeImage/TreeImage';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectFavorites } from '../redux/favorites/selectors';
 import { addFavoriteOperation, deleteFavoriteOperation } from '../redux/favorites/operations';
+import { colors } from '../constants/colors';
+import SharedTextFS from '../components/SharedComponents/SharedTextFS';
 
 const TreeDetailsScreen = () => {
   const { params } = useRoute<TreeDetailsScreenNavigationProp['route']>();
@@ -52,8 +54,13 @@ const TreeDetailsScreen = () => {
           <Text style={styles.category}>{params.category}</Text>
         </View>
         <View style={styles.description}>
-          <Text style={styles.descr}>Description</Text>
-          <Text style={styles.text}>{params.description ?? ''}</Text>
+          <SharedTextFS
+            text={'Description'}
+            fontSize13={true}
+          />
+          <SharedTextFS
+            text={params.description ?? ''}
+          />
         </View>
       </View>
     </ScrollView>
@@ -106,7 +113,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 20,
-    color: '#FDF9F9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansBold,
     fontSize: 16,
     lineHeight: 20.83,
@@ -116,24 +123,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   description: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     paddingHorizontal: 10,
     paddingVertical: 9,
     borderRadius: 12,
-  },
-  descr: {
-    color: '#FDF9F9',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 13,
-    lineHeight: 18,
-    letterSpacing: -0.08,
-  },
-  text: {
-    color: '#FDF9F9',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
   },
 });
 

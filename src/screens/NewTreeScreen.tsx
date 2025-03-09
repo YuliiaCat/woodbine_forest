@@ -1,5 +1,4 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
-import { fonts } from '../constants/fonts';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import BackButton from '../components/BackButton';
 import SharedButton from '../components/SharedButton';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -18,6 +17,7 @@ import TrashIcon from '../assets/icons/TrashIcon copy';
 import MapComponent from '../components/MapComponent';
 import EventsList from '../components/EventsList';
 import DatePickerComponent from '../components/DatePickerComponent';
+import SharedTextFS from '../components/SharedComponents/SharedTextFS';
 
 const NewTreeScreen = () => {
   const dispatch = useAppDispatch();
@@ -77,7 +77,9 @@ const NewTreeScreen = () => {
             <SharedButton
               onPress={handleEditPress}
             >
-              <Text style={styles.text}>{!editMode ? 'Edit' : 'Save'}</Text>
+              <SharedTextFS
+                text={!editMode ? 'Edit' : 'Save'}
+              />
             </SharedButton>
           </View>
           <Title title={editableTree?.title || 'My tree name'} />
@@ -164,13 +166,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 8,
-  },
-  text: {
-    color: '#FDF9F9',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
   },
   image: {
     width: '100%',

@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectFavorites } from '../redux/favorites/selectors';
 import ITree from '../types/tree';
 import { addFavoriteOperation, deleteFavoriteOperation } from '../redux/favorites/operations';
+import { colors } from '../constants/colors';
 
 interface ITreeCard {
   item: ITree;
@@ -41,8 +42,6 @@ const TreeCard: React.FC<ITreeCard> = ({ item }) => {
       description: description ?? '',
     });
   };
-
-  console.log(favorites);
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
@@ -98,18 +97,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 60,
     left: 20,
-    color: '#FDF9F9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansBold,
     fontSize: 16,
     lineHeight: 20.83,
     paddingVertical: 4,
     paddingHorizontal: 8,
-    backgroundColor: '#C80D0D',
+    backgroundColor: colors.red,
     borderRadius: 16,
   },
   title: {
     position: 'absolute',
-    color: '#ffffff',
+    color: colors.white,
     fontFamily: fonts.DMSansBold,
     fontSize: 20,
     lineHeight: 26.04,

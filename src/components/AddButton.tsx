@@ -2,6 +2,7 @@ import LinearGradientComponent from './LinearGradientComponent';
 import SharedButton from './SharedButton';
 import { fonts } from '../constants/fonts';
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native';
+import { colors } from '../constants/colors';
 
 interface IAddButton {
   onPress: () => void;
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     borderColor: '#C80D0D',
   },
   btnText: {
-    color: '#ffffff',
+    color: colors.white,
     fontFamily: fonts.DMSansRegular,
     fontSize: 16,
     textAlign: 'center',

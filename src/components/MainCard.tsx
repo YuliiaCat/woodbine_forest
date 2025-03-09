@@ -5,6 +5,7 @@ import AddButton from './AddButton';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackNavigation } from '../navigation/types';
+import { colors } from '../constants/colors';
 
 const MainCard = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
@@ -27,7 +28,7 @@ const MainCard = () => {
 
 const styles = StyleSheet.create({
   treeCard: {
-    backgroundColor: '#101010',
+    backgroundColor: colors.treeCardColor,
     borderRadius: 15,
     padding: 16,
     gap: 13,
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     maxHeight: 310,
   },
   text: {
-    color: '#ffffff',
+    color: colors.white,
     fontFamily: fonts.DMSansMedium,
     fontSize: 24,
     lineHeight: 21,

@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackNavigation } from '../navigation/types';
 import { deleteGoalOperation, fetchGoals } from '../redux/goals/operations';
+import { colors } from '../constants/colors';
 
 const GoalsScreen = () => {
   const goals = useAppSelector(selectGoals);
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
 
   },
   text: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 16,
     lineHeight: 24,

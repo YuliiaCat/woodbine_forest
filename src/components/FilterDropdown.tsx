@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { TTreeCategory } from '../types/treeCategory';
 import { fonts } from '../constants/fonts';
+import { colors } from '../constants/colors';
 
 interface IFilterDropdown {
   categories: TTreeCategory[];
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   text: {
-    color: '#ffffff',
+    color: colors.white,
     textAlign: 'right',
     paddingVertical: 11,
     paddingRight: 16,

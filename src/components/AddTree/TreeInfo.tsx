@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import SharedText from '../SharedText';
 import { fonts } from '../../constants/fonts';
 import MapComponent from '../MapComponent';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectTreeData } from '../../redux/forest/selectors';
 import { setTreeData } from '../../redux/forest/slice';
+import { colors } from '../../constants/colors';
+import SharedTextFS from '../SharedComponents/SharedTextFS';
 
 interface IInitialScreenProps {
   setIsDisabled: (disabled: boolean) => void;
@@ -33,7 +35,7 @@ const TreeInfo: React.FC<IInitialScreenProps> = ({ setIsDisabled }) => {
         style={styles.title}
        />
       <View style={styles.inputContainer}>
-        <Text style={styles.text}>Description</Text>
+        <SharedTextFS fontSize13={true} text={'Description'} />
         <TextInput
           placeholder={'Enter description'}
           placeholderTextColor={'#FDF9F980'}
@@ -48,7 +50,7 @@ const TreeInfo: React.FC<IInitialScreenProps> = ({ setIsDisabled }) => {
       />
 
       <View style={styles.inputContainer}>
-        <Text style={styles.text}>Location name</Text>
+        <SharedTextFS fontSize13={true} text={'Location name'} />
         <TextInput
           placeholder={'Enter location name'}
           placeholderTextColor={'#FDF9F980'}
@@ -66,23 +68,16 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   title: {
-    color: '#FFFFFF',
+    color: colors.white,
   },
   inputContainer: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.inputColor,
     paddingVertical: 9,
     paddingHorizontal: 10,
     borderRadius: 12,
   },
-  text: {
-    color: '#fdf9f9',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 13,
-    lineHeight: 18,
-    letterSpacing: -0.08,
-  },
   input: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,

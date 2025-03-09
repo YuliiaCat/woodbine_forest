@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import ISettings from '../types/settings';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -6,7 +6,7 @@ import { RootStackNavigation } from '../navigation/types';
 import React from 'react';
 import LinearGradientComponent from './LinearGradientComponent';
 import { fonts } from '../constants/fonts';
-import { ScreenNames } from '../constants/screenNames';
+import { colors } from '../constants/colors';
 
 interface ISettingsItem {
   item: ISettings;
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
-    color: '#ffffff',
+    color: colors.white,
     fontFamily: fonts.DMSansRegular,
     fontSize: 20,
     lineHeight: 35,

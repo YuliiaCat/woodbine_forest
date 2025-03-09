@@ -1,3 +1,5 @@
+import { colors } from '../constants/colors';
+
 export const getIconFillColor = (isActiveScreen: boolean): string => {
-  return isActiveScreen ? '#FDF9F9' : '#FFFFFF80';
+  return isActiveScreen ? colors.lightColor : '#ffffff80';
 };
