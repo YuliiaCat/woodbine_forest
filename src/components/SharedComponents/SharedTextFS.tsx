@@ -29,6 +29,13 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     letterSpacing: -0.08,
   },
+  text16: {
+    color: colors.lightColor,
+    fontFamily: fonts.DMSansRegular,
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
 });
 
 export default SharedTextFS;

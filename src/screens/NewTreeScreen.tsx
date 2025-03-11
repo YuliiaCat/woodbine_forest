@@ -22,7 +22,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 const NewTreeScreen = () => {
   const dispatch = useAppDispatch();
-  const { params } = useRoute<NewTreeDetailsScreenNavigationProp['route']>();
+  const route = useRoute<NewTreeDetailsScreenNavigationProp['route']>();
+  const params = route.params ?? { item: null };
   const forest = useAppSelector(selectForest);
   const { id, locationName, location } = params?.item;
   const tree = forest?.find(t => t.id === id) ?? null;
@@ -32,10 +33,15 @@ const NewTreeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
 
   useEffect(() => {
-    if (tree) {
+    let isMounted = true;
+
+    if (isMounted && tree !== null && tree !== undefined) {
       setEditableTree(tree);
     }
+
+    return () => { isMounted = false; };
   }, [tree]);
+
 
   useEffect(() => {
     if (!editMode && tree) {
@@ -69,8 +75,8 @@ const NewTreeScreen = () => {
     setEditMode(prev => !prev);
   };
 
-  const handleDelete = (treeId: number) => {
-    dispatch(deleteTreeOperation(treeId));
+  const handleDelete = async (treeId: number) => {
+    await dispatch(deleteTreeOperation(treeId));
     navigation.goBack();
   };
 

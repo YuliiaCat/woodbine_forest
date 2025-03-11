@@ -1,24 +1,32 @@
 import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import UsersForestCard from './UsersForestCard';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigation } from '../navigation/types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import ITree from '../types/tree';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { selectForest } from '../redux/forest/selectors';
+import { getTrees } from '../redux/forest/operations';
 
-interface IUsersForest {
-  trees: ITree[];
-}
-
-const UsersForest: React.FC<IUsersForest> = ({ trees }) => {
+const UsersForest  = () => {
+  const trees = useAppSelector(selectForest);
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
+
+  useEffect(() => {
+    if (!trees || trees.length === 0) {
+      dispatch(getTrees());
+    }
+  }, [dispatch, trees]);
+
+  console.log('trees', trees);
 
   return (
     <FlatList
       data={trees}
       scrollEnabled
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.id ? item.id.toString() : Math.random().toString()}
       renderItem={({ item }) => (
         <UsersForestCard
           item={item}
