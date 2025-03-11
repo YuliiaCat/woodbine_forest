@@ -16,7 +16,7 @@ export type RootStackNavigation={
   ADD_TREE_SCREEN: undefined,
   NEW_TREE_SCREEN: {
     item: ITree;
-   },
+  },
   ADD_EVENT_SCREEN: { treeId: number },
   SETTINGS_SCREEN: undefined,
   GOALS_SCREEN: undefined,

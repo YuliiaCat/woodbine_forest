@@ -4,12 +4,12 @@ import InitialScreen from '../components/AddTree/InitialScreen';
 import ScreensLayout from '../components/SharedLayout/ScreensLayout';
 import TreeInfo from '../components/AddTree/TreeInfo';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { addNewTree } from '../redux/forest/operations';
+import { addNewTree, setTreeDataOperation } from '../redux/forest/operations';
 import { selectForest, selectTreeData } from '../redux/forest/selectors';
 import ITree from '../types/tree';
-import { setTreeData } from '../redux/forest/slice';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NavigationProps } from '../navigation/types';
+import { resetTreeData } from '../redux/forest/slice';
 
 const AddTreeScreen = () => {
   const dispatch = useAppDispatch();
@@ -21,18 +21,20 @@ const AddTreeScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(setTreeData({
-        id: Date.now(),
-        title: '',
-        date: new Date().toISOString(),
-        image: null,
-        location: { latitude: null, longitude: null, address: '' },
-        description: '',
-        locationName: '',
-        event: [],
-        isFavorite: false,
-      }));
-    }, [dispatch])
+      if (!treeData.id) {
+        dispatch(setTreeDataOperation({
+          id: Date.now(),
+          title: '',
+          date: null,
+          image: null,
+          location: { latitude: null, longitude: null, address: '' },
+          description: '',
+          locationName: '',
+          events: [],
+          isFavorite: false,
+        }));
+      }
+    }, [dispatch, treeData.id])
   );
 
   useEffect(() => {
@@ -49,15 +51,18 @@ const AddTreeScreen = () => {
     if (step < 3) {
       setStep(step + 1);
     } else {
+      if (!treeData.id) {
+        return;
+      }
+
       const treeToSave: ITree = {
         ...treeData,
-        id: treeData.id ?? Date.now(),
+        id: treeData.id,
       };
 
-      const currentTrees = [...trees];
-
-      if (!currentTrees.some(t => t.id === treeToSave.id)) {
+      if (!trees.some(t => t.id === treeToSave.id)) {
         dispatch(addNewTree(treeToSave)).then(() => {
+          dispatch(resetTreeData());
           navigation.navigate('MAIN_SCREEN');
         });
       } else {

@@ -1,15 +1,16 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 import { fonts } from '../../constants/fonts';
 import { colors } from '../../constants/colors';
 
 interface ISharedTextFS {
   fontSize13?: boolean;
   text?: string;
+  style?: StyleProp<TextStyle>;
 }
 
-const SharedTextFS: React.FC<ISharedTextFS> = ({ fontSize13, text }) => {
+const SharedTextFS: React.FC<ISharedTextFS> = ({ fontSize13, text, style }) => {
   return (
-    <Text style={[styles.text, fontSize13 ? styles.text13 : styles.text17]}>{text}</Text>
+    <Text style={[styles.text, style, fontSize13 ? styles.text13 : styles.text17]}>{text}</Text>
   );
 };
 

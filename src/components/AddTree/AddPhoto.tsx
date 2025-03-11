@@ -4,11 +4,12 @@ import TreeImage from '../TreeImage/TreeImage';
 import AddButton from '../AddButton';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectTreeData } from '../../redux/forest/selectors';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { setTreeData } from '../../redux/forest/slice';
 import RNFS from 'react-native-fs';
 import { colors } from '../../constants/colors';
+import { setTreeDataOperation } from '../../redux/forest/operations';
+import { selectTreeData } from '../../redux/forest/selectors';
+
 
 interface IInitialScreenProps {
   setIsDisabled: (disabled: boolean) => void;
@@ -39,7 +40,7 @@ const AddPhoto: React.FC<IInitialScreenProps> = ({ setIsDisabled }) => {
           const base64String = await RNFS.readFile(filePath, 'base64');
           const formattedImage = `data:image/jpeg;base64,${base64String}`;
 
-          dispatch(setTreeData({
+          dispatch(setTreeDataOperation({
             ...treeData,
             image: formattedImage,
           }));

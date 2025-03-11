@@ -1,36 +1,45 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import EventCard from './EventCard';
-import { fonts } from '../constants/fonts';
 import SharedButton from './SharedButton';
 import IconPlus from '../assets/icons/IconPlus';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppDispatch } from '../redux/hooks';
 import { useNavigation} from '@react-navigation/native';
 import { RootStackNavigation } from '../navigation/types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { selectTreeData } from '../redux/forest/selectors';
-import { deleteEventOperation } from '../redux/forest/operations';
 import { colors } from '../constants/colors';
+import SharedTextFS from './SharedComponents/SharedTextFS';
+import React from 'react';
+import ITree from '../types/tree';
+import { updateTreeData } from '../redux/forest/operations';
 
-const EventsList = () => {
-  const treeData = useAppSelector(selectTreeData);
+interface IEventsList {
+  tree: ITree;
+}
+
+const EventsList: React.FC<IEventsList> = ({ tree }) => {
+  const { events } = tree;
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
 
   const handlePress = () => {
-    if (!treeData.id) {
+    if (!tree.id) {
       return;
     }
-    navigation.navigate('ADD_EVENT_SCREEN', { treeId: treeData.id });
+
+    navigation.navigate('ADD_EVENT_SCREEN', {
+      treeId: tree.id,
+    });
   };
 
   const handleDeleteEvent = async (eventId: number) => {
-    if (!treeData.id) {
+    if (!tree.id) {
       return;
     }
 
     try {
-      await dispatch(deleteEventOperation({ id: treeData.id, eventId })).unwrap();
-      console.log(`Deleted event with ID: ${eventId}`);
+      const updatedEvents = tree.events?.filter(event => event.eventId !== eventId) || [];
+
+      await dispatch(updateTreeData({ id: tree.id, events: updatedEvents })).unwrap();
     } catch (error) {
       console.error('Failed to delete event:', error);
     }
@@ -38,11 +47,17 @@ const EventsList = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Events</Text>
-      {!treeData.event || treeData.event.length === 0 ? (
-        <Text style={styles.noEvents}>You have not yet added events for this tree</Text>
+      <SharedTextFS
+        text={'Events'}
+        fontSize13={true}
+      />
+      {!events?.length ? (
+        <SharedTextFS
+          text={'You have not yet added events for this tree'}
+          style={styles.text}
+        />
       ) : (
-        treeData.event.map((item) => (
+        events?.map((item) => (
           <View key={item.eventId}>
             <EventCard
               description={item.description}
@@ -69,14 +84,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: colors.inputColor,
     borderRadius: 12,
-  },
-  title: {
-    color: colors.lightColor,
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 13,
-    lineHeight: 18,
-    letterSpacing: -0.08,
-    marginBottom: 2,
+    gap: 2,
   },
   list: {
     padding: 10,
@@ -91,14 +99,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  noEvents: {
-    color: colors.lightColor,
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
+  text: {
     opacity: 0.5,
-    marginBottom: 8,
   },
 });
 

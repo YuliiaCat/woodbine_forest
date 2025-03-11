@@ -4,21 +4,24 @@ import SharedText from '../SharedText';
 import SharedInput from '../SharedInput';
 import React, { useState } from 'react';
 import { colors } from '../../constants/colors';
+import ITree from '../../types/tree';
 
 interface ISharedAddForm {
   title: string;
+  nameKey: keyof ITree;
   nameValue: string;
   dateValue: string;
   nameSubtitle: string;
   dateSubtitle: string;
   namePlaceholder: string;
   datePlaceholder: string;
-  handleInputChange: (key: string, value: string | Date | null) => void;
+  handleInputChange: (key: keyof ITree, value: string | Date | null) => void;
   selectedDate: Date | null;
 }
 
 const SharedAddForm: React.FC<ISharedAddForm> = ({
   title,
+  nameKey,
   nameSubtitle,
   dateSubtitle,
   namePlaceholder,
@@ -40,7 +43,7 @@ const SharedAddForm: React.FC<ISharedAddForm> = ({
           text={nameSubtitle}
           placeholder={namePlaceholder}
           value={nameValue}
-          onChange={text => handleInputChange('title', text)}
+          onChange={(text) => handleInputChange(nameKey, text)}
        />
 
       {!showCalendar ? (

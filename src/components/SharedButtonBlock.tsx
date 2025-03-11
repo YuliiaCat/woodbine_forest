@@ -3,6 +3,7 @@ import BackButton from './BackButton';
 import SharedButton from './SharedButton';
 import { fonts } from '../constants/fonts';
 import React from 'react';
+import { colors } from '../constants/colors';
 
 interface IShareButtonBlock {
   onPress?: () => void;
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   btnText: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansRegular,
     fontSize: 17,
     lineHeight: 22,

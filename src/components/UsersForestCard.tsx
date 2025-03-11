@@ -5,6 +5,7 @@ import ITree from '../types/tree';
 import LocationIcon from '../assets/icons/LocationIcon';
 import ArrowIconRight from '../assets/icons/ArrowIconRight';
 import SharedTextFS from './SharedComponents/SharedTextFS';
+import { colors } from '../constants/colors';
 
 interface IUsersForestCard {
   item: ITree;
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     gap: 13,
-    backgroundColor: '#101010',
+    backgroundColor: colors.treeCardColor,
     borderRadius: 15,
   },
   image: {
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: '#FDF9F9',
+    color: colors.lightColor,
     opacity: 0.5,
   },
 });

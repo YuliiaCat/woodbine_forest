@@ -4,10 +4,11 @@ import SharedText from '../SharedText';
 import { fonts } from '../../constants/fonts';
 import MapComponent from '../MapComponent';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectTreeData } from '../../redux/forest/selectors';
-import { setTreeData } from '../../redux/forest/slice';
 import { colors } from '../../constants/colors';
 import SharedTextFS from '../SharedComponents/SharedTextFS';
+import { selectTreeData } from '../../redux/forest/selectors';
+import { setTreeDataOperation } from '../../redux/forest/operations';
+
 
 interface IInitialScreenProps {
   setIsDisabled: (disabled: boolean) => void;
@@ -22,7 +23,7 @@ const TreeInfo: React.FC<IInitialScreenProps> = ({ setIsDisabled }) => {
   }, [treeData, setIsDisabled]);
 
   const handleInputChange = (key: 'description' | 'locationName', value: string) => {
-    dispatch(setTreeData({
+    dispatch(setTreeDataOperation({
       ...treeData,
       [key]: value,
     }));

@@ -1,3 +1,5 @@
+import IEvent from './event';
+
 interface ITree {
   id: number;
   image?: string | null;
@@ -12,11 +14,7 @@ interface ITree {
     address: string,
   };
   locationName?: string;
-  event?: {
-    eventId: number;
-    description: string;
-    date: Date | null;
-  }[];
+  events?: IEvent[];
   isFavorite?: boolean;
 }
 

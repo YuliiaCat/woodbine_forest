@@ -1,157 +1,110 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import ScreensLayout from '../components/SharedLayout/ScreensLayout';
-import { NavigationProps } from '../navigation/types';
+import { AddEventScreenNavigationProp, NavigationProps } from '../navigation/types';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { selectTreeData } from '../redux/forest/selectors';
-import SharedInput from '../components/SharedInput';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import SharedText from '../components/SharedText';
-import { fonts } from '../constants/fonts';
+import { selectForest } from '../redux/forest/selectors';
 import { useState } from 'react';
+import IEvent from '../types/event';
+import { TouchableOpacity } from 'react-native';
+import SharedText from '../components/SharedText';
+import SharedInput from '../components/SharedInput';
 import DatePickerComponent from '../components/DatePickerComponent';
-import { addEventOperation, setTreeDataOperation } from '../redux/forest/operations';
-import ITree from '../types/tree';
-import { colors } from '../constants/colors';
+import { updateTreeData } from '../redux/forest/operations';
 
 const AddEventScreen = () => {
   const navigation = useNavigation<NavigationProps>();
+  const route = useRoute<AddEventScreenNavigationProp['route']>();
+  const { treeId } = route.params;
   const dispatch = useAppDispatch();
-  const treeData = useAppSelector(selectTreeData);
+  const trees = useAppSelector(selectForest);
+  const tree = trees.find(t => t.id === treeId) ?? null;
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const handleAdd = () => {
-    if (!treeData.id || !treeData.event || treeData.event.length === 0) {
+  const handleInputChange = (key: keyof IEvent, value: string | Date | null) => {
+    if (!tree) {
       return;
     }
 
-    const event = treeData.event[0];
-    if (!event.description || !event.date) {
-      return;
-    }
+    const lastEvent: IEvent = tree.events?.length
+      ? { ...tree.events.at(-1)! }
+      : { eventId: Date.now(), description: '', date: null };
 
-    dispatch(
-      addEventOperation({
-        treeId: treeData.id,
-        description: event.description,
-        date: event.date,
-      })
-    );
+    const updatedEvent = { ...lastEvent, [key]: value instanceof Date ? value.toISOString() : value };
 
-    navigation.navigate('MAIN_SCREEN');
+    const updatedTree = {
+      ...tree,
+      events: tree.events?.length
+        ? [...tree.events.slice(0, -1), updatedEvent]
+        : [updatedEvent],
+    };
+
+    dispatch(updateTreeData(updatedTree));
   };
 
-  const handleInputChange = (key: keyof ITree, value: string | Date | null) => {
-    const formattedValue = key === 'date' && value instanceof Date ? value.toISOString() : value;
+  const handleAddEvent = () => {
+    if (!tree) {
+      return;
+    }
 
-    dispatch(
-      setTreeDataOperation({
-        event: [
-          {
-            eventId: treeData.event?.[0]?.eventId ?? Date.now(),
-            description: key === 'description' ? (formattedValue as string) : treeData.event?.[0]?.description ?? '',
-            date: key === 'date' ? (formattedValue ? new Date(formattedValue) : null) : treeData.event?.[0]?.date ?? null,
-          },
-        ],
-        id: 0,
-        image: null,
-        title: '',
-      })
-    );
+    const newEvent: IEvent = {
+      eventId: Date.now(),
+      description: '',
+      date: new Date().toISOString(),
+    };
+
+    const updatedTree = {
+      ...tree,
+      events: [...(tree.events || []), newEvent],
+    };
+
+    console.log('updatedTree', updatedTree);
+
+  dispatch(updateTreeData(updatedTree));
+    navigation.navigate('MAIN_SCREEN');
   };
 
   return (
     <ScreensLayout
       title={'Add event'}
       btnText={'Add'}
-      onNext={handleAdd}
+      onNext={handleAddEvent}
     >
-      <View style={styles.container}>
-        <SharedText
-          text={'Event info'}
-          style={styles.title}
-        />
-        <View style={styles.inputWrapper}>
+      <SharedText text={'Event info'}  />
+       <SharedInput
+          text={'Tell me what you were doing. For example, transplanted the tree, watered the tree, added fertilizer, etc.'}
+          placeholder={'Enter description'}
+          value={tree?.events?.at(-1)?.description || ''}
+          onChange={(text) => handleInputChange('description', text)}
+       />
+
+      {!showCalendar ? (
+        <TouchableOpacity onPress={() => setShowCalendar(true)}>
           <SharedInput
-            text={'Tell me what you were doing. For example, transplanted the tree, watered the tree, added fertilizer, etc.'}
-            value={treeData?.event?.[0]?.description ?? ''}
-            placeholder={'Enter description'}
-            onChange={text => handleInputChange('description', text)}
-          />
-          {!showCalendar ? (
-          <View style={styles.inputContainer}>
-            <Text style={styles.text}>Select date for planting tree</Text>
-            <TouchableOpacity onPress={() => setShowCalendar(true)}>
-            <Text style={treeData?.date ? styles.input : styles.placeholder}>
-              {treeData?.event?.[0]?.date
-                ? new Date(treeData.event[0].date).toLocaleDateString('en-US', {
+            text={'Enter date of event'}
+            placeholder={'-'}
+            value={
+              tree?.events?.at(-1)?.date
+                ? new Date(tree.events.at(-1)!.date).toLocaleDateString('en-US', {
                     day: 'numeric',
                     month: 'numeric',
                     year: 'numeric',
                   }).replaceAll('/', '-')
-                : '-'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          ) : (
-            <DatePickerComponent
-              selectedDate={
-                treeData?.event?.[0]?.date
-                  ? new Date(treeData.event[0].date)
-                  : new Date()
-              }
-              onSelectDate={(date) => {
-                handleInputChange('date', date);
-                setShowCalendar(false);
-              }}
-            />
-          )}
-        </View>
-      </View>
+                : ''
+            }
+            editable={false}
+          />
+        </TouchableOpacity>
+        ) : (
+          <DatePickerComponent
+          selectedDate={tree?.events?.at(-1)?.date ? new Date(tree.events.at(-1)!.date) : new Date()}
+            onSelectDate={(date) => {
+              handleInputChange('date', date);
+              setShowCalendar(false);
+            }}
+          />
+        )}
     </ScreensLayout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    gap: 10,
-  },
-  title: {
-    color: colors.white,
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 16,
-    lineHeight: 41,
-    letterSpacing: 0.37,
-  },
-  inputWrapper: {
-    gap: 8,
-  },
-  inputContainer: {
-    backgroundColor: colors.inputColor,
-    paddingVertical: 9,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-  },
-  text: {
-    color: colors.lightColor,
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 13,
-    lineHeight: 18,
-    letterSpacing: -0.08,
-  },
-  input: {
-    color: colors.lightColor,
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
-  },
-  placeholder: {
-    color: '#FDF9F980',
-    fontFamily: fonts.DMSansRegular,
-    fontSize: 17,
-    lineHeight: 22,
-    letterSpacing: -0.41,
-  },
-});
 
 export default AddEventScreen;

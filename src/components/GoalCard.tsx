@@ -11,6 +11,7 @@ import SharedButton from './SharedButton';
 import IGoal from '../types/goal';
 import CheckmarkIcon from '../assets/icons/CheckmarkIcon';
 import { TDuration } from '../types/duration';
+import { colors } from '../constants/colors';
 
 interface IGoalCard {
   goal: IGoal;
@@ -86,8 +87,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
     width: '100%',
-    borderColor: '#C80D0D',
-    backgroundColor: '#C80D0D',
+    borderColor: colors.red,
+    backgroundColor: colors.red,
     borderWidth: 2,
     borderRadius: 16,
   },
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#C80D0D',
+    backgroundColor: colors.red,
     borderTopRightRadius: 12,
     borderBottomRightRadius: 12,
   },
@@ -118,20 +119,20 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   title: {
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansBold,
     fontSize: 20,
     lineHeight: 32,
   },
   description: {
     width: 190,
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontFamily: fonts.DMSansBold,
     fontSize: 12,
     lineHeight: 24,
     paddingVertical: 4,
     paddingHorizontal: 8,
-    backgroundColor: '#C80D0D',
+    backgroundColor: colors.red,
     borderRadius: 16,
   },
 });

@@ -4,7 +4,7 @@ import SharedButton from '../components/SharedButton';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectForest } from '../redux/forest/selectors';
 import React, { useEffect, useState } from 'react';
-import { NewTreeDetailsScreenNavigationProp } from '../navigation/types';
+import { NewTreeDetailsScreenNavigationProp, RootStackNavigation } from '../navigation/types';
 import Title from '../components/Title';
 import TreeImage from '../components/TreeImage/TreeImage';
 import SharedInput from '../components/SharedInput';
@@ -18,6 +18,7 @@ import MapComponent from '../components/MapComponent';
 import EventsList from '../components/EventsList';
 import DatePickerComponent from '../components/DatePickerComponent';
 import SharedTextFS from '../components/SharedComponents/SharedTextFS';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const NewTreeScreen = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ const NewTreeScreen = () => {
   const [editableTree, setEditableTree] = useState<ITree | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
 
   useEffect(() => {
     if (tree) {
@@ -43,7 +44,15 @@ const NewTreeScreen = () => {
   }, [tree, editMode]);
 
   const handleInputChange = (key: keyof ITree, value: string | Date) => {
-    setEditableTree(prev => (prev ? { ...prev, [key]: value } : prev));
+    setEditableTree(prev => {
+      if (!prev) {
+        return null;
+      }
+      return {
+        ...prev,
+        [key]: value,
+      };
+    });
   };
 
   const handleBlur = (key: keyof ITree) => {
@@ -141,7 +150,7 @@ const NewTreeScreen = () => {
               location={location}
             />
 
-          <EventsList />
+          {tree && <EventsList tree={tree} /> }
 
           <SharedButton
             onPress={() => editableTree?.id && handleDelete(editableTree.id)}

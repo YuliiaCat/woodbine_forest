@@ -49,14 +49,16 @@ const EventCard: React.FC<IEventCard> = ({ description, date, onDelete }) => {
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.container, animatedStyle]}>
           <Text style={[styles.description, styles.descrBox]}>
-            {description ?? 'Watered the tree with your friends'}
+            {description ?? ''}
           </Text>
           <View style={styles.descrBox}>
             <SharedTextFS
               text={'Date of Event'}
               fontSize13={true}
             />
-            <Text style={styles.description}>{date.toLocaleDateString().replaceAll('/', '-')}</Text>
+            <SharedTextFS
+              text={date.toLocaleDateString().replaceAll('/', '-')}
+            />
           </View>
         </Animated.View>
       </GestureDetector>

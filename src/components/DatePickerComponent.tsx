@@ -4,6 +4,7 @@ import SharedButton from './SharedButton';
 import ArrowIcon from '../assets/icons/ArrowIcon';
 import ChevronRight from '../assets/icons/ChevronRight';
 import { fonts } from '../constants/fonts';
+import { colors } from '../constants/colors';
 
 interface IDayPicker {
   selectedDate: Date | null;
@@ -19,10 +20,9 @@ const DatePickerComponent: React.FC<IDayPicker> = ({ selectedDate, onSelectDate 
 
   useEffect(() => {
     if (!selectedDate) {
-      onSelectDate(today);
+      return;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDate, onSelectDate]);
+  }, [selectedDate]);
 
   const daysArray = [
     ...Array(firstDayOfMonth).fill(null),
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   monthText: {
-    color: '#FDF9F9',
+    color: colors.lightColor,
     fontWeight: '700',
     fontSize: 20,
     lineHeight: 22,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   weekDay: {
     fontFamily: fonts.DMSansBold,
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontSize: 15,
     lineHeight: 18,
     letterSpacing: -0.08,
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   selectedDay: {
     fontFamily: fonts.DMSansBold,
-    backgroundColor: '#C80D0D',
+    backgroundColor: colors.red,
     borderRadius: '50%',
     textAlign: 'center',
     fontSize: 20,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   dayText: {
     fontFamily: fonts.DMSansMedium,
-    color: '#fdf9f9',
+    color: colors.lightColor,
     fontSize: 20,
     lineHeight: 25,
     letterSpacing: 0.38,
