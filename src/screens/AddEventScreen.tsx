@@ -19,26 +19,19 @@ const AddEventScreen = () => {
   const trees = useAppSelector(selectForest);
   const tree = trees.find(t => t.id === treeId) ?? null;
   const [showCalendar, setShowCalendar] = useState(false);
+  const [eventDescription, setEventDescription] = useState('');
+  const [eventDate, setEventDate] = useState<Date | null>(null);
 
   const handleInputChange = (key: keyof IEvent, value: string | Date | null) => {
     if (!tree) {
       return;
     }
 
-    const lastEvent: IEvent = tree.events?.length
-      ? { ...tree.events.at(-1)! }
-      : { eventId: Date.now(), description: '', date: null };
-
-    const updatedEvent = { ...lastEvent, [key]: value instanceof Date ? value.toISOString() : value };
-
-    const updatedTree = {
-      ...tree,
-      events: tree.events?.length
-        ? [...tree.events.slice(0, -1), updatedEvent]
-        : [updatedEvent],
-    };
-
-    dispatch(updateTreeData(updatedTree));
+    if (key === 'description') {
+      setEventDescription(value as string);
+    } else if (key === 'date' && value instanceof Date) {
+      setEventDate(value);
+    }
   };
 
   const handleAddEvent = () => {
@@ -46,10 +39,15 @@ const AddEventScreen = () => {
       return;
     }
 
+    if (!eventDescription.trim()) {
+      console.warn('Cannot add an empty event!');
+      return;
+    }
+
     const newEvent: IEvent = {
       eventId: Date.now(),
-      description: '',
-      date: new Date().toISOString(),
+      description: eventDescription,
+      date: eventDate ? eventDate.toISOString() : new Date().toISOString(),
     };
 
     const updatedTree = {
@@ -57,9 +55,11 @@ const AddEventScreen = () => {
       events: [...(tree.events || []), newEvent],
     };
 
-    console.log('updatedTree', updatedTree);
+    dispatch(updateTreeData(updatedTree));
 
-  dispatch(updateTreeData(updatedTree));
+    setEventDescription('');
+    setEventDate(null);
+
     navigation.navigate('MAIN_SCREEN');
   };
 
@@ -73,7 +73,7 @@ const AddEventScreen = () => {
        <SharedInput
           text={'Tell me what you were doing. For example, transplanted the tree, watered the tree, added fertilizer, etc.'}
           placeholder={'Enter description'}
-          value={tree?.events?.at(-1)?.description || ''}
+          value={eventDescription}
           onChange={(text) => handleInputChange('description', text)}
        />
 
@@ -83,12 +83,8 @@ const AddEventScreen = () => {
             text={'Enter date of event'}
             placeholder={'-'}
             value={
-              tree?.events?.at(-1)?.date
-                ? new Date(tree.events.at(-1)!.date).toLocaleDateString('en-US', {
-                    day: 'numeric',
-                    month: 'numeric',
-                    year: 'numeric',
-                  }).replaceAll('/', '-')
+              eventDate
+                ? eventDate.toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' })
                 : ''
             }
             editable={false}
@@ -96,7 +92,7 @@ const AddEventScreen = () => {
         </TouchableOpacity>
         ) : (
           <DatePickerComponent
-          selectedDate={tree?.events?.at(-1)?.date ? new Date(tree.events.at(-1)!.date) : new Date()}
+            selectedDate={eventDate || new Date()}
             onSelectDate={(date) => {
               handleInputChange('date', date);
               setShowCalendar(false);

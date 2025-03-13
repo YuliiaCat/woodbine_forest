@@ -8,6 +8,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectForest } from '../redux/forest/selectors';
 import { getTrees } from '../redux/forest/operations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UsersForest  = () => {
   const trees = useAppSelector(selectForest);
@@ -15,10 +16,16 @@ const UsersForest  = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
 
   useEffect(() => {
-    if (!trees || trees.length === 0) {
-      dispatch(getTrees());
-    }
-  }, [dispatch, trees]);
+    const fetchTrees = async () => {
+      const storedTrees = await AsyncStorage.getItem('forest');
+      if (!storedTrees) {
+        dispatch(getTrees());
+      }
+    };
+
+    fetchTrees();
+  }, [dispatch]);
+
 
   console.log('trees', trees);
 
@@ -26,11 +33,13 @@ const UsersForest  = () => {
     <FlatList
       data={trees}
       scrollEnabled
-      keyExtractor={(item) => item.id ? item.id.toString() : Math.random().toString()}
+      keyExtractor={(item) => item.id ? item.id?.toString() : Math.random().toString()}
       renderItem={({ item }) => (
         <UsersForestCard
           item={item}
-          onPress={() => {navigation.navigate('NEW_TREE_SCREEN', {item});}}
+          onPress={() => {
+            navigation.navigate('NEW_TREE_SCREEN', { item: item });
+          }}
         />
       )}
       contentContainerStyle={styles.list}

@@ -34,9 +34,6 @@ const forestSlice = createSlice({
     setTrees: (state, action) => {
       state.trees = action.payload;
     },
-    addTree: (state, action) => {
-      state.trees.push(action.payload);
-    },
     deleteTree: (state, action) => {
       state.trees = state.trees.filter((tree) => tree.id !== action.payload);
     },
@@ -92,7 +89,6 @@ const forestSlice = createSlice({
 
 export const {
   setTrees,
-  addTree,
   deleteTree,
   setTreeData,
   resetTreeData,

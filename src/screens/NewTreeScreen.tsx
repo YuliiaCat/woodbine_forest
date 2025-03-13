@@ -33,17 +33,6 @@ const NewTreeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted && tree !== null && tree !== undefined) {
-      setEditableTree(tree);
-    }
-
-    return () => { isMounted = false; };
-  }, [tree]);
-
-
-  useEffect(() => {
     if (!editMode && tree) {
       setEditableTree(tree);
     }

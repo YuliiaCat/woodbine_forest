@@ -7,8 +7,6 @@ import SharedLayout from '../components/SharedLayout/SharedLayout';
 const MainScreen = () => {
   const trees = useAppSelector(selectForest);
 
-  console.log('trees', trees);
-
   return (
     <SharedLayout
       title={'Woodbine Forest'}

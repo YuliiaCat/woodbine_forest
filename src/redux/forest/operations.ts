@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootState } from '../store';
-import { addTree, deleteTree, setTreeData, setTrees, updateTree } from './slice';
+import { deleteTree, setTreeData, setTrees, updateTree } from './slice';
 import ITree from '../../types/tree';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -21,12 +21,11 @@ export const getTrees = createAsyncThunk(
 
 export const addNewTree = createAsyncThunk(
   'forest/addNewTree',
-  async (tree: ITree, { dispatch, getState }) => {
+  async (tree: ITree, { getState }) => {
     try {
-      dispatch(addTree(tree));
-
-      const trees = (getState() as RootState).forest.trees;
+      const trees = [...(getState() as RootState).forest.trees, tree];
       await AsyncStorage.setItem('forest', JSON.stringify(trees));
+
       return tree;
     } catch (error) {
       console.log('Error adding tree:', error);
