@@ -29,7 +29,7 @@ const CustomTheme = {
 const AppNavigator = () => {
   return (
     <NavigationContainer theme={CustomTheme}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }} >
         <Stack.Screen name="LOADING_SCREEN" component={LoadingScreen} />
         <Stack.Screen name="ON_BOARDING_SCREEN" component={OnBoardingScreen} />
         <Stack.Screen name="MAIN_SCREEN" component={MainScreen} />

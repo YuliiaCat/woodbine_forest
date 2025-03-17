@@ -1,10 +1,9 @@
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import BackButton from '../components/BackButton';
 import SharedButton from '../components/SharedButton';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectForest } from '../redux/forest/selectors';
 import React, { useEffect, useState } from 'react';
-import { NewTreeDetailsScreenNavigationProp, RootStackNavigation } from '../navigation/types';
+import { NavigationProps, NewTreeDetailsScreenNavigationProp } from '../navigation/types';
 import Title from '../components/Title';
 import TreeImage from '../components/TreeImage/TreeImage';
 import SharedInput from '../components/SharedInput';
@@ -18,7 +17,7 @@ import MapComponent from '../components/MapComponent';
 import EventsList from '../components/EventsList';
 import DatePickerComponent from '../components/DatePickerComponent';
 import SharedTextFS from '../components/SharedComponents/SharedTextFS';
-import { StackNavigationProp } from '@react-navigation/stack';
+import ArrowIcon from '../assets/icons/ArrowIcon';
 
 const NewTreeScreen = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +29,7 @@ const NewTreeScreen = () => {
   const [editableTree, setEditableTree] = useState<ITree | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
+  const navigation = useNavigation<NavigationProps>();
 
   useEffect(() => {
     if (!editMode && tree) {
@@ -66,7 +65,7 @@ const NewTreeScreen = () => {
 
   const handleDelete = async (treeId: number) => {
     await dispatch(deleteTreeOperation(treeId));
-    navigation.goBack();
+    navigation.navigate('MAIN_SCREEN');
   };
 
   return (
@@ -77,7 +76,13 @@ const NewTreeScreen = () => {
       >
         <View style={styles.container}>
           <View style={styles.btnContainer}>
-            <BackButton onPress={() => navigation.goBack()} />
+            <SharedButton
+                onPress={() => navigation.navigate('MAIN_SCREEN')}
+                styles={styles.btnBack}
+              >
+                <ArrowIcon fill={'#fdf9f9'} />
+                <SharedTextFS text={'Back'} />
+            </SharedButton>
             <SharedButton
               onPress={handleEditPress}
             >
@@ -182,6 +187,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 16,
     alignItems: 'center',
+  },
+  btnBack: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
 });
 
